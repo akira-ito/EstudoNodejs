@@ -1,11 +1,17 @@
 extends ../head
 
 block content
-  form(action="/request")
+  form(action="/request", method="post").form-horizontal
     .form-group
-      label(foir="conector") Conector
-      select.form-control
+      label(for="conector") Conector:
+      select(name="conector").form-control#conector
         each conn in connetors
-          option conn.name
+          option= conn
     .form-group
-      input(name="conector")#conector
+      label(for="envio") Envio:
+      input(name="envio")#envio
+    .form-group
+      label(for="resposta") Resposta:
+      input(name="resposta")#resposta
+    button(type="submit").btn.btn-confirm Parser
+
