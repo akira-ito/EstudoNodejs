@@ -1,0 +1,11 @@
+extends ../head
+
+block content
+  form(action="/request")
+    .form-group
+      label(foir="conector") Conector
+      select.form-control
+        each conn in connetors
+          option conn.name
+    .form-group
+      input(name="conector")#conector

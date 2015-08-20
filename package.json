@@ -1,0 +1,24 @@
+{
+  "name": "BookMan",
+  "version": "1.0.0",
+  "description": "Request de trancode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oOAkiraOo/BookMan"
+  },
+  "author": "AkiraIto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oOAkiraOo/BookMan/issues"
+  },
+  "homepage": "https://github.com/oOAkiraOo/BookMan",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "jade": "^1.11.0"
+  }
+}
