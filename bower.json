@@ -8,6 +8,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "jquery-maskmoney": "~3.0.2"
   }
 }

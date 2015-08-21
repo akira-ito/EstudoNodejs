@@ -1,0 +1,34 @@
+extends ../index
+
+block title
+  |Gerador de codigo de barra
+
+block append content
+  script(src="/js/codigoBarra.js")
+  .container.col-xs-6.col-xs-offset-3
+    form(action="", method="post").form-horizontal#form
+      .panel.panel-primary
+        .panel-heading Codigo de barra para boletos
+        .panel-body
+          .form-group
+            label(for="digitado").control-label.col-sm-2 Digitado:
+            .col-sm-10.input-group
+              input(name="linha")#digitado.form-control.input-sm
+              span.input-group-btn
+                button(type="button", onclick="f_barra()").btn.btn-default.input-sm gerar
+          .form-group
+            label(for="lido").control-label.col-sm-2 Lido:
+            .col-sm-10.input-group
+              input(name="barra")#lido.form-control.input-sm
+              span.input-group-btn
+                button(type="button", onclick="f_linha()").btn.btn-default.input-sm gerar
+        .panel-footer
+          .form-group
+            label(for="vencimento").control-label.col-sm-2 Vencimento:
+            .col-sm-4
+              input(type="date", name="venc", min="2000-01-02")#vencimento.form-control.input-sm
+            label(for="valor").control-label.col-sm-2 Valor:
+            .col-sm-4
+              input(name="valor")#valor.form-control.input-sm
+  script(src="/js/jquery.js")
+
