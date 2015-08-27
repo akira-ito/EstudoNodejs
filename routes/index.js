@@ -7,6 +7,7 @@ module.exports = function(express){
 	});
 
 	router.get('/trancode', function(req, res){
+		console.log(config,Object.keys(config.conectores));
 		res.render('trancode/trancode', {connetors: Object.keys(config.conectores)});
 	})
 

@@ -16,10 +16,16 @@ $( "#vencimento" )
 		}
 });
 $('#valor')
-	.keydown(function() {
+	.keyup(function() {
 		var valor = $('#valor').val().replace(/[^0-9]/g,'');
 		$('#valor').val(valor);
+		if ($('#valor').val().length > 10) {
+			$('#valor').val(valor.substr(0,10));
+			return;
+		}
 		var valor10 = ('0000000000'.substr(valor.length-10 || 10) + valor);
 		$('#digitado').val($('#digitado').val().substr(0, 37)+valor10);
-		$('#lido').val($('#lido').val().substr(0,10) + valor10 + $('#lido').val().substr(20));
+		var res = $('#lido').val().substr(0,9) + valor10 + $('#lido').val().substr(19);
+		console.log('res', res);
+		$('#lido').val(res);
 });

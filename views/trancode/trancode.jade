@@ -1,17 +1,31 @@
-extends ../head
+extends ../index
 
-block content
-  form(action="/request", method="post").form-horizontal
-    .form-group
-      label(for="conector") Conector:
-      select(name="conector").form-control#conector
-        each conn in connetors
-          option= conn
-    .form-group
-      label(for="envio") Envio:
-      input(name="envio")#envio
-    .form-group
-      label(for="resposta") Resposta:
-      input(name="resposta")#resposta
-    button(type="submit").btn.btn-confirm Parser
-
+block append content
+  script(src='/angular/angular.js')
+  script(src='/js/controllerTrancode.js')
+  div(ng-app="trancode")
+    div(ng-controller="controllerPost")
+      .container.col-sm-8.col-sm-offset-2
+        pre(ng-show="error") {{error}}
+        form(ng-submit="parse()").form
+          .form-group
+            .col-sm-4.col-sm-offset-4
+              label(for="conector").control-label Conector:
+            .col-sm-4
+              select(ng-model="form.conector").form-control#conector
+                if connetors
+                  each conn in connetors
+                    option= conn
+                else
+                  option nenhum conector...
+          .form-group
+            label(for="envio").control-label Envio:
+            textarea(cols="3", ng-model="form.envio")#envio.form-control= envio
+          .form-group
+            label(for="resposta").control-label Resposta:
+            textarea(cols="3", ng-model="form.resposta")#resposta.form-control= resposta
+          .text-center
+            input(type="submit", value="Parser").btn.btn-primary
+        p
+          div {{res_envio}}
+          div {{res_resposta}}

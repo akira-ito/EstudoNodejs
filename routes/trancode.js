@@ -7,19 +7,20 @@ module.exports = function(express){
 		var conector = req.body.conector
 		var envio = req.body.envio
 		var resposta = req.body.resposta
-		console.log(envio, resposta, conector);
-
+		var connetors = Object.keys(config.conectores);
+		
 		if (resposta){
-        	res.render('trancode/trancode', {conector: conector, envio: envio, resposta: resposta});
+        	res.json({form: {conector: conector, connetors: connetors, envio: envio, resposta: resposta}});
 		}else{
 			var data = {
 				"trancode": envio
 			};
+			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 	        request.post(config.conectores[conector], { json: data }, function(err, resp, body) {
 	        	if (err){
-	        		return res.render('error', {err: err});
+	        		return res.json(false);
 	        	}
-	        	res.render('trancode/trancode', {conector: conector, envio: envio, resposta: body, connetors: Object.keys(config.conectores)});
+	        	res.json({form:{conector: conector, envio: envio, resposta: body, connetors: connetors}});
 	        });
 		}
 	});
