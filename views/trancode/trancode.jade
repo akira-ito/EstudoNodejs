@@ -26,6 +26,18 @@ block append content
             textarea(cols="3", ng-model="form.resposta")#resposta.form-control= resposta
           .text-center
             input(type="submit", value="Parser").btn.btn-primary
+            {{loading}}
+        hr
+        p
+          fieldset
+            legend book
+            ul
+              li(ng-repeat="book in books")
+                label Nome:
+                input
+                label Tipo:
+                select
+                  option(ng-repeat="tipo in tipos") {{tipo}}
         p
           div {{res_envio}}
           div {{res_resposta}}
