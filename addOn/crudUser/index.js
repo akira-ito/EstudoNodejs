@@ -1,9 +1,9 @@
 var jade = require('jade');
-var User = require('./model');
 
 module.exports = function(){
   return {
     name: "CrudUser",
+    active: false,
     router: {
       '/': {
         method: 'get',
@@ -17,6 +17,7 @@ module.exports = function(){
       '/cadastrar': {
         method: 'post',
         action: function(req, res){
+          var User = require('./model');
           console.log('cadastro 2222');
 
           var newUser = new User({

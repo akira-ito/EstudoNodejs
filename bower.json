@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "jquery-maskmoney": "~3.0.2",
-    "angular": "~1.4.4"
+    "angular": "~1.4.4",
+    "angular-route": "~1.4.5"
   }
 }

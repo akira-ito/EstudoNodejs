@@ -8,14 +8,16 @@ module.exports = function(){
     files.forEach(function(file){
       if (fs.lstatSync('addOn/'+file).isDirectory()){
         var plugin = require('./'+file)(router);
-        plugins.push({
-          name: plugin.name,
-          link: file
-        });
-        for (var key in plugin.router){
-          var config = plugin.router[key];
-          router[config.method]('/'+file+key, config.action);
-        };
+        if (plugin.acrive){
+          plugins.push({
+            name: plugin.name,
+            link: file
+          });
+          for (var key in plugin.router){
+            var config = plugin.router[key];
+            router[config.method]('/'+file+key, config.action);
+          };
+        }
       }
     })
   });

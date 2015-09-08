@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var trancodeRouter = require('./routes/trancode')(express);
 var codigoBarraRouter = require('./routes/codigoBarra')(express);
+var testeRouter = require('./routes/teste')(express);
 var addOn = require('./addOn')();
 
 app.set('views', __dirname + '/views');
@@ -14,8 +15,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res){ res.render('index', {addOnPlugins: addOn.plugins}); })
+.get('/render/:page/:session', function(req, res){
+
+	console.log('page', req.params);
+	res.render(req.params.page+'/'+req.params.session);
+})
 .use('/trancode', trancodeRouter)
 .use('/codigoBarra', codigoBarraRouter)
+.use('/teste', testeRouter)
 .use('/mock', require('./mock')(express))
 .use('/addOn', addOn.router);
 

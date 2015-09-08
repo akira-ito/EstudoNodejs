@@ -4,18 +4,23 @@ block title
   | Pagina principal
 
 block content
+  script(src="/js/homeController.js")
   nav.navbar.navbar-default
-    .container
+    .container(ng-app="home")
       .navbar-header
-        a(href="/").navbar-brand Home
+        a(href="#/").navbar-brand Home
       .collapse.navbar-collapse
         ul.nav.navbar-nav
           li
-            a(href="/trancode") Trancode&Book
+            a(href="#trancode") Trancode&Book
           li
-            a(href="/codigoBarra") CodigoBarra
+            a(href="#codigoBarra") CodigoBarra
           li
-            a(href="#") Teste
+            a(href="#teste") Teste
           each addOn in addOnPlugins
             li
               a(href="addOn/#{addOn.link}") #{addOn.name}
+
+      div(ng-view)
+
+  
