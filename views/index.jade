@@ -9,10 +9,13 @@ block content
       .navbar-header
         a(href="/").navbar-brand Home
       .collapse.navbar-collapse
-        ul.nav.navbar-nav   
+        ul.nav.navbar-nav
           li
             a(href="/trancode") Trancode&Book
-          li 
+          li
             a(href="/codigoBarra") CodigoBarra
           li
             a(href="#") Teste
+          each addOn in addOnPlugins
+            li
+              a(href="addOn/#{addOn.link}") #{addOn.name}

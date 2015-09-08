@@ -38,6 +38,7 @@ block append content
                 label Tipo:
                 select
                   option(ng-repeat="tipo in tipos") {{tipo}}
+                input(type="button", value="+", ng-click="add()").btn.btn-primary
         p
           div {{res_envio}}
           div {{res_resposta}}

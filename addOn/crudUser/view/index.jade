@@ -1,0 +1,15 @@
+script(src='/angular/angular.js')
+script(src='../crudUser/public/js/controller.js')
+
+div(ng-app="CrudUser", ng-controller="crudUserController")
+  form(ng-submit="cadastrar()", method="post")
+    label Nome:
+      input(ng-model="form.nome")
+    p
+    label Email:
+      input(ng-model="form.email")
+    p
+    label Senha:
+      input(type="password", ng-model="form.senha")
+    p
+    button Salvar
