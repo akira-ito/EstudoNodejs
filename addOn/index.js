@@ -8,7 +8,7 @@ module.exports = function(){
     files.forEach(function(file){
       if (fs.lstatSync('addOn/'+file).isDirectory()){
         var plugin = require('./'+file)(router);
-        if (plugin.acrive){
+        if (plugin.active){
           plugins.push({
             name: plugin.name,
             link: file
@@ -22,8 +22,8 @@ module.exports = function(){
     })
   });
 
-    return {
-      plugins: plugins,
-      router: router
-    };
+  return {
+    plugins: plugins,
+    router: router
+  };
 }

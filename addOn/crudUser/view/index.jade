@@ -1,15 +1,34 @@
-script(src='/angular/angular.js')
-script(src='../crudUser/public/js/controller.js')
+html(ng-app="CrudUser")
+  head
+    base(href="/addOn/crudUser/")
+    script(src='/angular/angular.js')
+    script(src='/angular-route/angular-route.js')
+    script(src='/crudUser/public/js/route.js')
+    script(src='/crudUser/public/js/controller.js')
 
-div(ng-app="CrudUser", ng-controller="crudUserController")
-  form(ng-submit="cadastrar()", method="post")
-    label Nome:
-      input(ng-model="form.nome")
-    p
-    label Email:
-      input(ng-model="form.email")
-    p
-    label Senha:
-      input(type="password", ng-model="form.senha")
-    p
-    button Salvar
+    style.
+      html, body{
+        width: 100%;
+      }
+  body
+    table(width="100%")
+      tr
+        td(witdh="50%")
+        td(witdh="940px")
+          table
+            tr
+              td
+                a(href="./") Home
+              td
+                a(href="cadastrar") Cadastrar
+              td Alterar
+              td
+                a(href="buscar") Buscar
+              td Excluir
+              td Logar
+        td(witdh="50%")
+      tr
+        td
+        td
+          div(ng-view)
+        td

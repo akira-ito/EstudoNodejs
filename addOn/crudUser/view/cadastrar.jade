@@ -1,0 +1,14 @@
+form(ng-submit="cadastrar()", method="post")
+  label Nome:
+    input(ng-model="form.nome")
+  p
+  label Email:
+    input(ng-model="form.email")
+  p
+  label Senha:
+    input(type="password", ng-model="form.senha")
+  p
+  button {{btnSavar}}
+
+  div
+    pre {{mensagem}}

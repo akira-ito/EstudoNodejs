@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var app = express();
 var trancodeRouter = require('./routes/trancode')(express);
 var codigoBarraRouter = require('./routes/codigoBarra')(express);
@@ -13,6 +14,7 @@ app.use(express.static(__dirname + '/public/'));
 app.use(express.static(__dirname + '/addOn/'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'))
 
 app.get('/', function(req, res){ res.render('index', {addOnPlugins: addOn.plugins}); })
 .get('/render/:page/:session', function(req, res){

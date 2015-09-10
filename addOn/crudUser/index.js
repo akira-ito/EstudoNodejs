@@ -3,46 +3,69 @@ var jade = require('jade');
 module.exports = function(){
   return {
     name: "CrudUser",
-    active: false,
+    active: true,
     router: {
       '/': {
         method: 'get',
         action: function(req, res){
-          console.log('chamandoooooooooo');
           var html = jade.renderFile(__dirname+'/view/index.jade');
           res.set('Content-Type', 'text/html');
           res.send(html);
+        }
+      },
+      '/:get': {
+        method: 'get',
+        action: function(req, res){
+          if (req.params.get != "render"){
+            var html = jade.renderFile(__dirname+'/view/index.jade');
+            res.set('Content-Type', 'text/html');
+            res.send(html);
+          }
         }
       },
       '/cadastrar': {
         method: 'post',
         action: function(req, res){
           var User = require('./model');
-          console.log('cadastro 2222');
 
           var newUser = new User({
-            name: req.body.name,
-            password: req.body.password,
+            name: req.body.nome,
+            password: req.body.senha,
             email: req.body.email
           });
-          console.log('dddddddddddddd 2222');
 
-          User.find({}, function(err, users){
-            if (err){
-              console.log(555);
-            }
-            console.log(users);
-          })
-          console.log('fimss');
           newUser.save(function(err){
             if (err){
-              console.log('erro');
-              res.json('erro');
+              res.status(500).send(err);
             }else{
-              console.log('salvo');
-              res.json('salvo');
+              res.json(newUser);
             }
           })
+        }
+      },
+      '/buscar': {
+        method: 'post',
+        action: function(req, res){
+          var nome = req.body.nome;
+          var email = req.body.email;
+          var password = req.body.senha;
+
+          var User = require('./model');
+          User.find({name: nome}, function(err, users){
+            if (err){
+              res.status(500).send(err);
+            }else{
+              res.json(users);
+            }
+          })
+        }
+      },
+      '/render/:page': {
+        method: 'get',
+        action: function(req, res){
+          var html = jade.renderFile(__dirname + '/view/'+req.params.page+'.jade');
+          res.set('Content-Type', 'text/html');
+          res.send(html);
         }
       }
     }

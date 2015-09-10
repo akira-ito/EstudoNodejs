@@ -1,0 +1,14 @@
+form(method="post", ng-submit="buscar()")
+  label Nome:
+    input(ng-model="form.nome")
+  p
+  label Email:
+    input(ng-model="form.email")
+  p
+  label Senha:
+    input(type="password", ng-model="form.senha")
+  p
+  button {{btnBuscar}}
+
+  div
+    pre {{mensagem}}
