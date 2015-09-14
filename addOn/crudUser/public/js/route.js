@@ -14,7 +14,7 @@ angular.module('CrudUser', ['ngRoute', 'CrudUserControllers'])
       controller: 'buscarController'
     }).
     otherwise({
-      redirectTo: '/'
+      redirect: '/'
     });
 
     $locationProvider.html5Mode({

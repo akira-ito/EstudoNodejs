@@ -8,9 +8,11 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3.3.5",
-    "jquery-maskmoney": "~3.0.2",
     "angular": "~1.4.4",
-    "angular-route": "~1.4.5"
+    "angular-route": "~1.4.5",
+    "backbone": "~1.2.3",
+    "bootstrap": "~3.3.5",
+    "handlebars": "~4.0.2",
+    "jquery-maskmoney": "~3.0.2"
   }
 }
