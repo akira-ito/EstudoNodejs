@@ -5,22 +5,21 @@ block title
 
 block content
   script(src="/js/homeController.js")
-  nav.navbar.navbar-default
-    .container(ng-app="home")
-      .navbar-header
-        a(href="#/").navbar-brand Home
-      .collapse.navbar-collapse
-        ul.nav.navbar-nav
-          li
-            a(href="#trancode") Trancode&Book
-          li
-            a(href="#codigoBarra") CodigoBarra
-          li
-            a(href="#teste") Teste
-          each addOn in addOnPlugins
+  div(ng-app="home")
+    nav.navbar.navbar-default
+      .container
+        .navbar-header
+          a(href="#/").navbar-brand Home
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
             li
-              a(href="addOn/#{addOn.link}") #{addOn.name}
+              a(href="#trancode") Trancode&Book
+            li
+              a(href="#codigoBarra") CodigoBarra
+            li
+              a(href="#teste") Teste
+            each addOn in addOnPlugins
+              li
+                a(href="addOn/#{addOn.link}") #{addOn.name}
 
-      div(ng-view)
-
-  
+    div(ng-view).container

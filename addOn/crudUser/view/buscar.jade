@@ -1,14 +1,17 @@
-form(method="post", ng-submit="buscar()")
-  label Nome:
-    input(ng-model="form.nome")
+form(method="post", ng-submit="buscar()").form-inline
+  label.control-label Nome:
+    input(ng-model="form.nome").form-control
   p
-  label Email:
-    input(ng-model="form.email")
+  label.control-label Email:
+    input(ng-model="form.email").form-control
   p
-  label Senha:
-    input(type="password", ng-model="form.senha")
+  label.control-label Senha:
+    input(type="password", ng-model="form.senha").form-control
   p
-  button {{btnBuscar}}
+  button.btn.btn-primary {{btnBuscar}}
+  p
+    div
+      pre {{mensagem}}
 
-  div
-    pre {{mensagem}}
+  ul(ng-repeat="user in usuarios")
+    li {{user}}

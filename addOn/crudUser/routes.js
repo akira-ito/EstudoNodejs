@@ -1,6 +1,6 @@
 var jade = require('jade');
 var fs = require('fs');
-var path = require('path');
+require('mongoose').connect('mongodb://localhost/crudUser');
 
 module.exports.index = function(req, res){
   var html = jade.renderFile(__dirname+'/view/index.jade');
@@ -27,12 +27,23 @@ module.exports.cadastrar = function(req, res){
 }
 
 module.exports.buscar = function(req, res){
-  var nome = req.body.nome;
-  var email = req.body.email;
-  var password = req.body.senha;
-
+  var find = {
+    name: req.body.nome || "",
+    email: req.body.email || "",
+    password: req.body.senha || ""
+  };
+  if (find.name.trim() == ""){
+    delete find.name;
+  }
+  if (find.email.trim() == ""){
+    delete find.email;
+  }
+  if (find.password.trim() == ""){
+    delete find.password;
+  }
   var User = require('./model');
-  User.find({name: nome}, function(err, users){
+  User.find(find, function(err, users){
+    console.log("fim", err, users, find);
     if (err){
       res.status(500).send(err);
     }else{
@@ -43,7 +54,7 @@ module.exports.buscar = function(req, res){
 
 module.exports.get = function(req, res){
   if (req.params.get != "render"){
-    fs.exists(__dirname+'/view/' + req.params.get+'.jade', function(exists) { 
+    fs.exists(__dirname+'/view/' + req.params.get+'.jade', function(exists) {
       var html = "";
       if (!exists){
         html = jade.renderFile(__dirname+'/view/notFound.jade');
@@ -53,7 +64,7 @@ module.exports.get = function(req, res){
       }
       res.set('Content-Type', 'text/html');
       res.send(html);
-    }); 
+    });
   }
 }
 

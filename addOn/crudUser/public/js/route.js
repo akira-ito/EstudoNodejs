@@ -13,6 +13,10 @@ angular.module('CrudUser', ['ngRoute', 'CrudUserControllers'])
       templateUrl: 'render/buscar',
       controller: 'buscarController'
     }).
+    when('/excluir',{
+      templateUrl: 'render/excluir',
+      controller: 'excluirController'
+    }).
     otherwise({
       redirect: '/'
     });

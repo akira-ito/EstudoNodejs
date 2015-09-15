@@ -1,14 +1,17 @@
-form(ng-submit="cadastrar()", method="post")
-  label Nome:
-    input(ng-model="form.nome")
+form(ng-submit="cadastrar()", method="post").form-inline
+  label.control-label Nome:
+    input(ng-model="form.nome").form-control
   p
-  label Email:
-    input(ng-model="form.email")
+  label.control-label Email:
+    input(ng-model="form.email").form-control
   p
-  label Senha:
-    input(type="password", ng-model="form.senha")
+  label.control-label Senha:
+    input(type="password", ng-model="form.senha").form-control
   p
-  button {{btnSavar}}
-
+  button.btn.btn-primary {{btnSavar}}
+  p
   div
-    pre {{mensagem}}
+    pre
+     | {{mensagem}}
+     ul(ng-repeat="vali in validation")
+       li {{vali}}
