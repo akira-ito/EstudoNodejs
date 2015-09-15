@@ -1,6 +1,7 @@
 var jade = require('jade');
 var fs = require('fs');
 require('mongoose').connect('mongodb://localhost/crudUser');
+var User = require('./model');
 
 module.exports.index = function(req, res){
   var html = jade.renderFile(__dirname+'/view/index.jade');
@@ -9,14 +10,12 @@ module.exports.index = function(req, res){
 }
 
 module.exports.cadastrar = function(req, res){
-  var User = require('./model');
 
   var newUser = new User({
     name: req.body.nome,
     password: req.body.senha,
     email: req.body.email
   });
-
   newUser.save(function(err){
     if (err){
       res.status(500).send(err);
@@ -41,7 +40,6 @@ module.exports.buscar = function(req, res){
   if (find.password.trim() == ""){
     delete find.password;
   }
-  var User = require('./model');
   User.find(find, function(err, users){
     console.log("fim", err, users, find);
     if (err){
