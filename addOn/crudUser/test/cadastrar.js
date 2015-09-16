@@ -5,34 +5,34 @@ var routes = rewire('../routes');
 var utils = require('../../utils.js');
 var req, res, before, model;
 
-beforeEach( before = function() {
-	req = {
-		'body': {},
-		'params': {},
-		'query': {}
-	};
-	res = {
-		'status': function(stat){
-			var self = this;
-			self.stat = stat;
-			return {
-				'json': function(errs){
-					self.errs = errs;
-				},
-				'send': function(data){
-					self.data = data;
-				}
-			}
-		},
-		'json': function(data){
-			this.data = data;
-		}
-	};
-	utils.middleware.validator(req, res, function(){});
-});
 
 describe('Testando o Middleware /cadastrar', function(done){
 	describe('Validation', function(done){
+		beforeEach( before = function() {
+			req = {
+				'body': {},
+				'params': {},
+				'query': {}
+			};
+			res = {
+				'status': function(stat){
+					var self = this;
+					self.stat = stat;
+					return {
+						'json': function(errs){
+							self.errs = errs;
+						},
+						'send': function(data){
+							self.data = data;
+						}
+					}
+				},
+				'json': function(data){
+					this.data = data;
+				}
+			};
+			utils.middleware.validator(req, res, function(){});
+		});
 		it('Validando todos os campos nulos', function(done){
 			var next = function(){};
 			validation.cadastrar(req, res, next);
@@ -253,29 +253,80 @@ describe('Testando o Middleware /cadastrar', function(done){
 	});
 
 	describe('Routes', function(done){
-		it ('Validando a montagem do Model User', function(done){
+		var nameFunct, funct, req;
+		beforeEach(function(){
+			req = {'body': {}, 'params': {}, 'query': {} }; 
 			var User = routes.__get__('User');
 			routes.__set__('User', function(doc, fields, skipId){
 				model = User.call(this, doc, fields, skipId);
-				model.save = function(callback){
-					callback(null);
-				}
+				model[nameFunct] = funct;
 				return model;
 			});
+		})
 
-			res.json = function(json){
-				(json).should.be.type("object");
-				(json).should.have.properties('name', 'password', 'email')
-				done();
+		it ('Validando a montagem do Model User', function(done){
+			var names = [
+				undefined, "", "Akira Ito", "Edson", "Fernando Jose"
+			]
+			var passwords = [
+				undefined, "", "32432532", "testando123", "99jkjjee3"
+			]
+			var emails = [
+				undefined, "", "edson@akira.com", "testando@yahoo.br", "ferando.lima@gmail.com"
+			]
+
+			nameFunct = "save";
+			funct = function(callback){
+				callback(null);
 			}
-			res.status = function(status){
-				return {
-					send: function(data){
-						done("Error de saida");
+			for(var x = 0; x<5; x++){
+				req.body.nome = names[x];
+				req.body.senha = passwords[x];
+				req.body.email = emails[x];
+
+				res = {
+					json: function(result){
+						(result).should.be.type("object");
+						(result).should.have.properties('name', 'password', 'email');
+						(result['name'] === names[x]).should.ok();
+						(result['password'] === passwords[x]).should.ok();
+						(result['email'] === emails[x]).should.ok();
+					},
+					status: function(status){
+						return {
+							send: function(data){
+								return done("fail");
+							}
+						}
+					}
+				}
+				routes.cadastrar(req, res);
+			}
+			done();
+		});
+		it ('Validando o cenario de erro ao salvar', function(done){
+			nameFunct = "save";
+			funct = function(callback){
+				callback("Erro ao salvar");
+			}
+			req.body.nome = "Edson";
+			req.body.senha = "234342ff";
+			req.body.email = "teste@2dd3.com";
+
+			res = {
+				json: function(result){
+					done("fail");
+				},
+				status: function(status){
+					return {
+						send: function(data){
+							(status).should.equal(500);
+							(data).should.equal("Erro ao salvar");
+							done();
+						}
 					}
 				}
 			}
-
 			routes.cadastrar(req, res);
 		});
 	});

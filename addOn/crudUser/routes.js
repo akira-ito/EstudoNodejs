@@ -10,7 +10,6 @@ module.exports.index = function(req, res){
 }
 
 module.exports.cadastrar = function(req, res){
-
   var newUser = new User({
     name: req.body.nome,
     password: req.body.senha,

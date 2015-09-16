@@ -1,17 +1,18 @@
 var request = require('supertest');
 var expect = require('expect');
 var should = require('should');
+var http = "http://localhost:8080/addOn/crudUser";
 
 describe('Testar o CrudUser cadastrar', function(){
 	describe('via GET', function(done){
-		it('Fazendo uma requisição 200 GET cadastrar', function(done){
-			request('http://localhost:8080/addOn/crudUser')
+		it('Fazendo uma requisição 404 GET cadastrar', function(done){
+			request(http)
 				.get('cadastrar')
 				.expect('Content-Type', "text/html; charset=utf-8")
 			  .expect(404, done);
 		})
-		it('Fazendo uma requisição 404 GET /cadastrar', function(done){
-			request('http://localhost:8080/addOn/crudUser')
+		it('Fazendo uma requisição 200 GET /cadastrar', function(done){
+			request(http)
 				.get('/cadastrar')
 				.expect('Content-Type', "text/html; charset=utf-8")
 			  .expect(200, done);
@@ -20,13 +21,13 @@ describe('Testar o CrudUser cadastrar', function(){
 
 	describe('via POST', function(done){
 		it('Fazendo uma requisição com erro de validação 400 POST /cadastrar', function(done){
-			request('http://localhost:8080/addOn/crudUser')
+			request(http)
 				.post('/cadastrar')
 				.expect('Content-Type', "application/json; charset=utf-8")
 			  .expect(400, done);
 		})
-		it('Fazendo uma requisição com os retornos da validação 400 GET /cadastrar', function(done){
-			request('http://localhost:8080/addOn/crudUser')
+		it('Fazendo uma requisição com os retornos da validação 400 POST /cadastrar', function(done){
+			request(http)
 				.post('/cadastrar')
 				.send({})
 				.expect('Content-Type', "application/json; charset=utf-8")
@@ -42,7 +43,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					done();
 				})
 		})
-		it('Nome: Nome invalido 400 GET /cadastrar', function(done){
+		it('Nome: Nome invalido 400 POST /cadastrar', function(done){
 			var usuario = [
 				null,
 				undefined,
@@ -51,7 +52,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			usuario.forEach(function(usu, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						nome: usu
@@ -72,7 +73,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Nome: Nome inferior de 5 caracteres 400 GET /cadastrar', function(done){
+		it('Nome: Nome inferior de 5 caracteres 400 POST /cadastrar', function(done){
 			var usuario = [
 				"Ito",
 				"Akir",
@@ -80,7 +81,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			usuario.forEach(function(usu, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						nome: usu
@@ -101,14 +102,14 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Nome: Nome valido 400 GET /cadastrar', function(done){
+		it('Nome: Nome valido 400 POST /cadastrar', function(done){
 			var usuario = [
 				"Edson",
 				"Akira"
 			]
 
 			usuario.forEach(function(usu, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						nome: usu
@@ -128,7 +129,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Email: Digite o email 400 GET /cadastrar', function(done){
+		it('Email: Digite o email 400 POST /cadastrar', function(done){
 			var emails = [
 				null,
 				undefined,
@@ -137,7 +138,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			emails.forEach(function(email, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						email: email
@@ -158,7 +159,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Email: Email invalido 400 GET /cadastrar', function(done){
+		it('Email: Email invalido 400 POST /cadastrar', function(done){
 			var emails = [
 				"edson",
 				"edson.akira",
@@ -168,7 +169,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			emails.forEach(function(email, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						email: email
@@ -189,7 +190,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Email: Email valido 400 GET /cadastrar', function(done){
+		it('Email: Email valido 400 POST /cadastrar', function(done){
 			var emails = [
 				"edsonakira@gmail.com",
 				"edson.akira123@hotmail.com",
@@ -197,7 +198,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			emails.forEach(function(email, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						email: email
@@ -217,7 +218,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Senha: Senha invalido 400 GET /cadastrar', function(done){
+		it('Senha: Senha invalido 400 POST /cadastrar', function(done){
 			var senhas = [
 				null,
 				undefined,
@@ -226,7 +227,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			senhas.forEach(function(senha, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						senha: senha
@@ -247,14 +248,14 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Senha: Senha de tamanho invalido. (de 5 á 12 caracteres) 400 GET /cadastrar', function(done){
+		it('Senha: Senha de tamanho invalido. (de 5 á 12 caracteres) 400 POST /cadastrar', function(done){
 			var senhas = [
 				"122",
 				"122213213213213"
 			]
 
 			senhas.forEach(function(senha, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						senha: senha
@@ -276,7 +277,7 @@ describe('Testar o CrudUser cadastrar', function(){
 					})
 			})
 		})
-		it('Senha: Senha valido 400 GET /cadastrar', function(done){
+		it('Senha: Senha valido 400 POST /cadastrar', function(done){
 			var senhas = [
 				"12245",
 				"96742595",
@@ -284,7 +285,7 @@ describe('Testar o CrudUser cadastrar', function(){
 			]
 
 			senhas.forEach(function(senha, index){
-				request('http://localhost:8080/addOn/crudUser')
+				request(http)
 					.post('/cadastrar')
 					.send({
 						senha: senha
