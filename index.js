@@ -38,6 +38,11 @@ app.use(function(req, res, next){
 	res.render('error', {err: err});
 })
 
-app.listen(8080, function(){
+var port = 8080;
+if (process.argv.length >= 3 ) {
+	port = parseInt(process.argv[2]);
+}
+
+app.listen(port, function(){
 	console.log('subiu!');
 })

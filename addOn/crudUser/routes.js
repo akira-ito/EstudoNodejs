@@ -1,15 +1,20 @@
 var jade = require('jade');
 var fs = require('fs');
-require('mongoose').connect('mongodb://localhost/crudUser');
-var User = require('./model');
+var mongoose = require('mongoose');
+var config = require('./config')();
+// mongoose.createConnection(config.database['mongoose']);
+mongoose.connect(config.database['mongoose']);
+var User = require('./model').User;
 
-module.exports.index = function(req, res){
+var AppRouter = function(){};
+
+AppRouter.prototype.index = function(req, res){
   var html = jade.renderFile(__dirname+'/view/index.jade');
   res.set('Content-Type', 'text/html');
   res.send(html);
 }
 
-module.exports.cadastrar = function(req, res){
+AppRouter.prototype.cadastrar = function(req, res){
   var newUser = new User({
     name: req.body.nome,
     password: req.body.senha,
@@ -24,7 +29,8 @@ module.exports.cadastrar = function(req, res){
   })
 }
 
-module.exports.buscar = function(req, res){
+AppRouter.prototype.buscar = function(req, res){
+
   var find = {
     name: req.body.nome || "",
     email: req.body.email || "",
@@ -40,7 +46,6 @@ module.exports.buscar = function(req, res){
     delete find.password;
   }
   User.find(find, function(err, users){
-    console.log("fim", err, users, find);
     if (err){
       res.status(500).send(err);
     }else{
@@ -49,7 +54,7 @@ module.exports.buscar = function(req, res){
   })
 }
 
-module.exports.get = function(req, res){
+AppRouter.prototype.get = function(req, res){
   if (req.params.get != "render"){
     fs.exists(__dirname+'/view/' + req.params.get+'.jade', function(exists) {
       var html = "";
@@ -65,7 +70,7 @@ module.exports.get = function(req, res){
   }
 }
 
-module.exports.render = function(req, res){
+AppRouter.prototype.render = function(req, res){
   console.log('req.params.page', req.params.page);
   if (req.params.page == "notFound"){
 	  var html = jade.renderFile(__dirname + '/view/notFound.jade');
@@ -78,3 +83,15 @@ module.exports.render = function(req, res){
 	  res.send(html);
 	}
 }
+
+
+var instance;
+
+module.exports = function (core) {
+    console.log('in', instance);
+    if (!instance) {
+        instance = new AppRouter();
+    }
+
+    return instance;
+};

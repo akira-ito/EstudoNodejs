@@ -1,5 +1,5 @@
-var routes = require('./routes.js');
 var validation = require('./validation.js');
+var routes = require('./routes.js')();
 
 module.exports = function(){
   return {
