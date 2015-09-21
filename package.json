@@ -4,7 +4,9 @@
   "description": "Request de trancode",
   "main": "index.js",
   "scripts": {
-    "test": "mocha addOn/**/test/*.js"
+    "test": "mocha addOn/**/test/*.js",
+    "testIntegrado": "mocha addOn/**/test/*.js",
+    "testFull": "mocha addOn/**/test/**/*.js"
   },
   "repository": {
     "type": "git",

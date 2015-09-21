@@ -2,6 +2,20 @@ var request = require('supertest');
 var expect = require('expect');
 var should = require('should');
 var http = "http://localhost:8080/addOn/crudUser";
+var mongoose = require('mongoose');
+var config = require('../../config')();
+
+// verificando variavel de ambiente
+before(function(done){
+
+	var env = process.env.NODE_ENV;
+	if (env != "TEST"){
+		throw new Error("Configure a variavel de ambiente NODE_ENV para TEST");
+	}else{ //conectando ambiente de teste
+		db = mongoose.connect(config.database['mongoose']);
+		done();
+	}
+})
 
 describe('Testar o CrudUser cadastrar', function(){
 	describe('via GET', function(done){
@@ -306,4 +320,13 @@ describe('Testar o CrudUser cadastrar', function(){
 			})
 		})
 	})
+});
+
+//dropando o banco de dados
+after(function(done) {
+	db.connection.db.dropDatabase(function(){
+		db.connection.close(function(){
+			done();
+		});
+	});
 });

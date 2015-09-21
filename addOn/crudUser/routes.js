@@ -2,6 +2,12 @@ var jade = require('jade');
 var fs = require('fs');
 var mongoose = require('mongoose');
 var config = require('./config')();
+
+mongoose.connection.on("error", function(err) {
+  console.log('Mongoose: Falha ao conectar BD: ', err.message);
+});
+
+
 // mongoose.createConnection(config.database['mongoose']);
 mongoose.connect(config.database['mongoose']);
 var User = require('./model').User;
@@ -32,19 +38,11 @@ AppRouter.prototype.cadastrar = function(req, res){
 AppRouter.prototype.buscar = function(req, res){
 
   var find = {
-    name: req.body.nome || "",
-    email: req.body.email || "",
-    password: req.body.senha || ""
+    name: new RegExp(req.body.nome, "i"),
+    email: new RegExp(req.body.email, "i"),
+    password: new RegExp(req.body.senha, "i")
   };
-  if (find.name.trim() == ""){
-    delete find.name;
-  }
-  if (find.email.trim() == ""){
-    delete find.email;
-  }
-  if (find.password.trim() == ""){
-    delete find.password;
-  }
+  
   User.find(find, function(err, users){
     if (err){
       res.status(500).send(err);
@@ -87,11 +85,20 @@ AppRouter.prototype.render = function(req, res){
 
 var instance;
 
-module.exports = function (core) {
-    console.log('in', instance);
+module.exports = function () {
     if (!instance) {
         instance = new AppRouter();
     }
 
     return instance;
 };
+
+
+var exit = function() { 
+  mongoose.connection.close(function () {
+    console.log('Mongoose: Conexão encerrada');
+    process.exit(0);
+  });
+}
+
+process.on('SIGINT', exit).on('SIGTERM', exit);

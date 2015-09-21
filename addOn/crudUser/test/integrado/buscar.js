@@ -10,9 +10,10 @@ var db, criarUsuario;
 
 // verificando variavel de ambiente
 before(function(done){
+
 	var env = process.env.NODE_ENV;
 	if (env != "TEST"){
-		throw new Error("Configure a variavel de ambiente para TEST");
+		throw new Error("Configure a variavel de ambiente NODE_ENV para TEST");
 	}else{ //conectando ambiente de teste
 		db = mongoose.connect(config.database['mongoose']);
 		criarUsuario = function(user, callback){
@@ -48,17 +49,11 @@ describe('Testar o CrudUser buscar', function(){
 			  	.expect(200, done);
 		})
 		it('Fazendo uma requisição que busca todos usuario 200 POST /buscar', function(done){
-			var tests = [
-				null, {name: 'edson akira'}, {name: 'mock II'}
-			]
-			var expects = {
-				length: [0, 1, 2],	
-				busca: [[], [{name: 'edson akira'}], [{name: 'edson akira'}, {name: 'mock II'}]]	
-
-			}
+			var tests = [null, {name: 'edson akira'}, {name: 'Jose santos'}, null, {name: 'testando 232'}];
+			var expects = [0, 1, 2, 2, 3];
 
 			var qtdTest = 0;
-			async.each(tests, function(test, callback){
+			async.eachSeries(tests, function(test, callback){
 				criarUsuario(test, function(err, res){
 					if (err) 
 						return callback(err);
@@ -70,20 +65,41 @@ describe('Testar o CrudUser buscar', function(){
 						if (err) 
 							return callback(err);
 						var body = res.body;
-						console.log('expects.length[qtdTest]', expects.length[qtdTest], body.length);
 						expect(body).toExist();
-						expect(body.length).toEqual(expects.length[qtdTest]);
+						expect(body.length).toEqual(expects[qtdTest]);
+						qtdTest++;
 						callback();
 					})
-					qtdTest++;
 				});
 			}, function(err){
 				if(err) throw err;
 				done();
 			})
-
-			
 		});
+		it('Fazendo uma requisição que busca somente uma parte 200 POST /buscar', function(done){
+			var tests = ["an", "edson", "joao", "jOsE"];
+			var expects = [2, 1, 0, 1];
+
+			var qtdTest = 0;
+			async.eachSeries(tests, function(search, callback){
+				request(http)
+				.post('/buscar')
+				.send({nome: search})
+				.expect('Content-Type', "application/json; charset=utf-8")
+				.end(function(err, res){
+					if (err) 
+						return callback(err);
+					var body = res.body;
+					expect(body).toExist();
+					expect(body.length).toEqual(expects[qtdTest]);
+					callback();
+					qtdTest++;
+				})
+			},function(err){
+				if(err) throw err;
+				done();
+			});		
+		})
 
 	})
 });

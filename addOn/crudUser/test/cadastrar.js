@@ -253,13 +253,13 @@ describe('Testando o Middleware /cadastrar', function(done){
 	});
 
 	describe('Routes', function(done){
-		var nameFunct, funct, req;
+		var funct, req;
 		beforeEach(function(){
 			req = {'body': {}, 'params': {}, 'query': {} }; 
 			var User = routes.__get__('User');
 			routes.__set__('User', function(doc, fields, skipId){
 				model = User.call(this, doc, fields, skipId);
-				model[nameFunct] = funct;
+				model["save"] = funct;
 				return model;
 			});
 		})
@@ -275,7 +275,6 @@ describe('Testando o Middleware /cadastrar', function(done){
 				undefined, "", "edson@akira.com", "testando@yahoo.br", "ferando.lima@gmail.com"
 			]
 
-			nameFunct = "save";
 			funct = function(callback){
 				callback(null);
 			}
@@ -300,12 +299,11 @@ describe('Testando o Middleware /cadastrar', function(done){
 						}
 					}
 				}
-				routes.cadastrar(req, res);
+				routes().cadastrar(req, res);
 			}
 			done();
 		});
 		it ('Validando o cenario de erro ao salvar', function(done){
-			nameFunct = "save";
 			funct = function(callback){
 				callback("Erro ao salvar");
 			}
@@ -327,7 +325,7 @@ describe('Testando o Middleware /cadastrar', function(done){
 					}
 				}
 			}
-			routes.cadastrar(req, res);
+			routes().cadastrar(req, res);
 		});
 	});
 	

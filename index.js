@@ -44,5 +44,5 @@ if (process.argv.length >= 3 ) {
 }
 
 app.listen(port, function(){
-	console.log('subiu!');
+	console.log('Iniciada: localhost:'+port);
 })
