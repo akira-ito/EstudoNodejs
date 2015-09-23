@@ -22,6 +22,10 @@ module.exports = function(){
         method: 'post',
         action: routes.buscar
       },
+      '/excluir/:id': {
+        method: 'post',
+        action: routes.excluir
+      },
       '/render/:page': {
         method: 'get',
         action: routes.render

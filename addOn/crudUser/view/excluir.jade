@@ -1,0 +1,7 @@
+form(ng-submit="buscar()", method="get")
+  input(ng-model="form.nome")
+  button(type="submit") {{btnBuscar}}
+
+ul(ng-repeat="usuario in usuarios")
+  li
+    a(hreaf){{usuario.name}}

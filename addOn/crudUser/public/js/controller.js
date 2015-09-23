@@ -48,5 +48,24 @@ angular.module('CrudUserControllers', [])
     }
 })
 .controller('excluirController', function($scope, $http){
+  $scope.usuarios = [];
+  $scope.btnBuscar = "Buscar";
+  $scope.buscar = function(){
+    $scope.btnBuscar = "Buscando...";
+    $http.post('buscar', this.form)
+      .success(function(data, status){
+        $scope.btnBuscar = "Buscar";
+        // $scope.form = {
+        //   nome:"",
+        //   email:"",
+        //   senha:"",
+        // };
+        $scope.mensagem = "Success! data: "+ JSON.stringify(data) + " status: " + status;
+        $scope.usuarios = data;
+      }).error(function(err){
+        $scope.btnBuscar = "Buscar";
+        $scope.mensagem = "Error! err: "+err;
+    });
+  }
 
 })

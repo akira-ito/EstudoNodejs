@@ -20,8 +20,6 @@ app.use(middleware.validator);
 
 app.get('/', function(req, res){ res.render('index', {addOnPlugins: addOn.plugins}); })
 .get('/render/:page/:session', function(req, res){
-
-	console.log('page', req.params);
 	res.render(req.params.page+'/'+req.params.session);
 })
 .use('/trancode', trancodeRouter)
