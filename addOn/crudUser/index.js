@@ -23,8 +23,12 @@ module.exports = function(){
         action: routes.buscar
       },
       '/excluir/:id': {
+        method: 'delete',
+        action: [validation.excluir, routes.excluir]
+      },
+      '/alterar/:id': {
         method: 'post',
-        action: routes.excluir
+        action: [validation.alterar, routes.alterar]
       },
       '/render/:page': {
         method: 'get',

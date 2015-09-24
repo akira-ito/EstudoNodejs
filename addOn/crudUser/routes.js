@@ -2,13 +2,6 @@ var jade = require('jade');
 var fs = require('fs');
 var mongoose = require('mongoose');
 var config = require('./config')();
-
-mongoose.connection.on("error", function(err) {
-  console.log('Mongoose: Falha ao conectar BD: ', err.message);
-});
-
-
-// mongoose.createConnection(config.database['mongoose']);
 mongoose.connect(config.database['mongoose']);
 var User = require('./model').User;
 
@@ -36,7 +29,6 @@ AppRouter.prototype.cadastrar = function(req, res){
 }
 
 AppRouter.prototype.buscar = function(req, res){
-
   var find = {
     name: new RegExp(req.body.nome, "i"),
     email: new RegExp(req.body.email, "i"),
@@ -50,6 +42,35 @@ AppRouter.prototype.buscar = function(req, res){
       res.json(users);
     }
   })
+}
+
+AppRouter.prototype.excluir = function(req, res){
+  User.findById(req.params.id, function(err, user){
+    if (err){
+      res.status(500).send(err);
+    }else if (!user){
+      res.status(400).send("Usuario nao cadastrado.");
+    }else{
+      user.remove(function(){
+        res.send("Usuario excluido com sucesso.");
+      })
+    }
+  })
+}
+
+AppRouter.prototype.alterar = function(req, res){
+  var updated = {
+    name: req.body.nome,
+    email: req.body.email,
+    password: req.body.senha
+  }
+  User.findByIdAndUpdate(req.params.id, updated, function(err, user) {
+    if (err) {
+      res.status(500).send(err);
+    }else{
+      res.send(user);
+    }
+  });
 }
 
 AppRouter.prototype.get = function(req, res){
@@ -84,15 +105,16 @@ AppRouter.prototype.render = function(req, res){
 
 
 var instance;
-
 module.exports = function () {
     if (!instance) {
         instance = new AppRouter();
     }
-
     return instance;
 };
 
+mongoose.connection.on("error", function(err) {
+  console.log('Mongoose: Falha ao conectar BD: ', err.message);
+});
 
 var exit = function() { 
   mongoose.connection.close(function () {
