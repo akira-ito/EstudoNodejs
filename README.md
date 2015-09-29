@@ -1,5 +1,5 @@
 
-# BookMan
+# Estudo NodeJs
 É um projeto para estudo de [NodeJS] utilizando os frameworks/modulos mais conhecido.  
 *Inicialmente foi desenvolvida para auxiliar no dia-a-dia do trabalho.*
 
@@ -76,6 +76,7 @@ Diretorio onde contem subprojetos que funcionam independentes do projeto princip
 
 #### Iniciando
 > Antes, é necessário a instalação [NodeJS], [npm] e [bower] e a configuração da variavel de ambiente **NODE_ENV** como **DES**.
+
 ``` bash
 git clone https://github.com/oOAkiraOo/BookMan.git BookMan
 cd BookMan
@@ -83,6 +84,7 @@ bower install
 npm install
 node . 
 ```
+
 #### Executando os testes
 ```bash
 npm test
